@@ -1,0 +1,546 @@
+/* ========================= */
+/* RESET */
+/* ========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    overflow-x: hidden; /* SỬA: Chống tràn ngang */
+    overflow-y: auto;   /* SỬA: Cho phép cuộn dọc */
+    min-height:100vh;   /* SỬA: Thay height thành min-height */
+    background:#050505;
+    color:white;
+    font-family:'Inter',sans-serif;
+}
+
+/* ========================= */
+/* BACKGROUND */
+/* ========================= */
+
+.background{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:-10;
+    background:
+    linear-gradient(
+    135deg,
+    #030303,
+    #070707,
+    #120608,
+    #030303
+    );
+}
+
+.redGlow{
+    position:absolute;
+    width:800px;
+    height:800px;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    border-radius:50%;
+    background: radial-gradient( circle, rgba(255,0,60,.25), transparent 70% );
+    filter:blur(120px);
+    animation: pulse 6s infinite ease-in-out;
+}
+
+@keyframes pulse{
+    0%{ transform: translate(-50%,-50%) scale(1); }
+    50%{ transform: translate(-50%,-50%) scale(1.2); }
+    100%{ transform: translate(-50%,-50%) scale(1); }
+}
+
+/* ========================= */
+/* SPOTLIGHT */
+/* ========================= */
+
+.spotlight {
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    pointer-events: none;
+    background: radial-gradient( circle, rgba(255,0,60,.12), transparent 70% );
+    transform: translate(-50%, -50%);
+    transition: left 0.1s linear, top 0.1s linear;
+    will-change: left, top;
+}
+
+/* ========================= */
+/* INTRO */
+/* ========================= */
+
+#intro{
+    width:100%;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.mainTitle{
+    color: white;
+    font-family:'Cormorant Garamond',serif;
+    font-size:5rem;
+    font-weight:700;
+    line-height:1.15;
+    letter-spacing:2px;
+    text-shadow: 0 0 20px rgba(255,0,60,.4), 0 0 40px rgba(255,0,60,.2);
+}
+
+.dateText{
+    margin-top:25px;
+    font-size:1.2rem;
+    opacity:.85;
+}
+
+.counterBox{
+    margin-top:35px;
+    font-size:2rem;
+    font-weight:600;
+    color:#ff4d73;
+}
+
+#startBtn{
+    margin-top:50px;
+    padding:18px 45px;
+    border:none;
+    border-radius:50px;
+    cursor:pointer;
+    color:white;
+    font-size:1rem;
+    background: linear-gradient( 45deg, #79001d, #ff003c );
+    transition:.4s;
+    box-shadow: 0 0 30px rgba(255,0,60,.35);
+}
+
+#startBtn:hover{
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 0 50px rgba(255,0,60,.7);
+}
+
+/* ========================= */
+/* GALLERY */
+/* ========================= */
+
+#gallery {
+    /* SỬA: Đổi fixed thành absolute, thêm padding để cuộn mượt */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    padding: 50px 0;
+    
+    display: flex;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: 0.8s ease;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#gallery.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+#gallery.show .left {
+    animation: slideLeftFromSide 1.2s cubic-bezier(0.25, 1, 0.3, 1) forwards;
+}
+
+#gallery.show .right {
+    animation: slideRightFromSide 1.2s cubic-bezier(0.25, 1, 0.3, 1) forwards;
+}
+#gallery.show .card:nth-child(1) { animation-delay: 0.1s; }
+#gallery.show .card:nth-child(2) { animation-delay: 0.3s; }
+#gallery.show .card:nth-child(3) { animation-delay: 0.5s; }
+#gallery.show .card:nth-child(4) { animation-delay: 0.7s; }
+#gallery.show .card:nth-child(5) { animation-delay: 0.9s; }
+#gallery.show .card:nth-child(6) { animation-delay: 1.1s; }
+
+.galleryTitle{
+    font-family:'Cormorant Garamond',serif;
+    font-size:3rem;
+    margin-bottom:50px;
+    text-shadow: 0 0 20px rgba(255,0,60,.5);
+}
+
+.galleryContainer{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:40px;
+    width:90%;
+    perspective:2000px;
+}
+
+.card {
+    width: 280px;
+    height: 380px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 25px;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.25s ease;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    
+    /* SỬA: Ban đầu ẩn đi, chỉ hiện khi bấm nút */
+    opacity: 0; 
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: translateZ(0px); /* Trạng thái mặc định */
+}
+
+.caption {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 20px 15px;
+    text-align: center;
+    background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
+    opacity: 0;
+    transform: translateY(20px) translateZ(40px); /* Đẩy chữ nổi hẳn lên không gian 3D */
+    transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 5;
+}
+
+.card:hover .caption {
+    opacity: 1;
+    transform: translateY(0) translateZ(40px);
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--grad-x, 50%) var(--grad-y, 50%), rgba(255,255,255,0.18) 0%, transparent 60%);
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+
+/* glow */
+.card:hover{
+    box-shadow: 0 0 35px rgba(255,0,60,.4), 0 0 80px rgba(255,0,60,.2);
+}
+
+/* bay vào */
+.left{
+    animation: slideLeft 1.5s forwards;
+}
+
+.right{
+    animation: slideRight 1.5s forwards;
+}
+
+@keyframes slideLeft{
+    from{ opacity:0; transform: translateX(-500px) rotateY(-40deg); }
+    to{ opacity:1; transform: translateX(0) rotateY(0); }
+}
+
+@keyframes slideRight{
+    from{ opacity:0; transform: translateX(500px) rotateY(40deg); }
+    to{ opacity:1; transform: translateX(0) rotateY(0); }
+}
+@keyframes slideLeftFromSide {
+    0% { 
+        opacity: 0; 
+        transform: translateX(-150px) scale(0.85) rotateY(-30deg);
+        filter: brightness(1);
+    }
+    65% {
+        opacity: 1;
+        transform: translateX(0) scale(1) rotateY(0);
+        filter: brightness(1);
+    }
+    75% {
+        /* Giai đoạn NHÁY SÁNG: Tăng mạnh độ sáng và hiệu ứng hào quang hồng */
+        filter: brightness(2.2) saturate(1.3);
+        box-shadow: 0 0 50px rgba(255, 0, 60, 0.9), 0 0 100px rgba(255, 0, 60, 0.5);
+    }
+    100% { 
+        opacity: 1; 
+        transform: translateX(0) scale(1) rotateY(0);
+        filter: brightness(1); /* Trở về độ sáng bình thường */
+    }
+}
+
+@keyframes slideRightFromSide {
+    0% { 
+        opacity: 0; 
+        transform: translateX(150px) scale(0.85) rotateY(30deg);
+        filter: brightness(1);
+    }
+    65% {
+        opacity: 1;
+        transform: translateX(0) scale(1) rotateY(0);
+        filter: brightness(1);
+    }
+    75% {
+        /* Giai đoạn NHÁY SÁNG: Tăng mạnh độ sáng và hiệu ứng hào quang hồng */
+        filter: brightness(2.2) saturate(1.3);
+        box-shadow: 0 0 50px rgba(255, 0, 60, 0.9), 0 0 100px rgba(255, 0, 60, 0.5);
+    }
+    100% { 
+        opacity: 1; 
+        transform: translateX(0) scale(1) rotateY(0);
+        filter: brightness(1); /* Trở về độ sáng bình thường */
+    }
+}
+
+/* THÊM MỚI: Style cho nút mở thư */
+#openLetterBtn {
+    margin-top: 60px;
+    padding: 15px 35px;
+    border: 1px solid rgba(255,0,60,.5);
+    border-radius: 50px;
+    cursor: pointer;
+    color: white;
+    font-size: 1rem;
+    background: rgba(255,0,60,.1);
+    backdrop-filter: blur(5px);
+    transition: .4s;
+}
+
+#openLetterBtn:hover {
+    background: #ff003c;
+    box-shadow: 0 0 30px rgba(255,0,60,.5);
+    transform: translateY(-3px);
+}
+
+
+/* ========================= */
+/* LETTER SYSTEM */
+/* ========================= */
+
+.envelope {
+    position: relative;
+    width: 500px;
+    height: 320px;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    animation: envelopeAppear 1.5s ease forwards;
+}
+
+#letterSection {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.5s;
+    z-index: 100; /* THÊM: Đảm bảo thư luôn đè lên gallery */
+}
+
+#letterSection.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,.65);
+    backdrop-filter: blur(8px);
+    pointer-events: all;
+}
+
+/* wrapper */
+.envelopeWrapper{
+    position:relative;
+    perspective:2000px;
+    z-index:5;
+}
+
+/* phong thư */
+/* thân thư */
+.envelope::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:15px;
+    background: linear-gradient( 145deg, #5f0a1e, #8d0f2f );
+    box-shadow: 0 30px 100px rgba(255,0,60,.4);
+}
+
+/* nắp */
+.envelopeFlap{
+    position:absolute;
+    inset:0;
+    background: linear-gradient( 145deg, #b1173d, #73051d );
+    clip-path: polygon( 0 0, 100% 0, 50% 55% );
+    transform-origin:top;
+    transition:1.5s;
+    z-index:10;
+}
+
+/* giấy */
+.letterPaper {
+    position:absolute;
+    width:88%;
+    height:85%;
+    left:6%;
+    top:8%;
+    background:white;
+    border-radius:12px;
+    padding:30px;
+    color:#222;
+    overflow-y:auto;
+    transform:translateY(80px);
+    transition:2s;
+    z-index: 2;
+    box-shadow:0 15px 50px rgba(0,0,0,.3);
+}
+
+.envelope.open .letterPaper {
+    transform: translateY(-25px);
+    transition-timing-function: cubic-bezier(0.25, 1, 0.3, 1);
+}
+
+.envelope.open .envelopeFlap {
+    transform: rotateX(180deg);
+}
+
+#typewriter {
+    white-space: pre-wrap;
+    word-break: break-word;
+    line-height: 1.8;
+    font-size: 17px;
+}
+
+@keyframes envelopeAppear{
+    from{
+        opacity:0;
+        transform: translateY(300px) scale(.8);
+    }
+    to{
+        opacity:1;
+        transform: translateY(0) scale(1);
+    }
+}
+/* SỬA LỖI NÚT KHÔNG BẤM ĐƯỢC */
+#intro {
+    position: relative;
+    z-index: 50; /* Đưa Intro lên lớp trên cùng để không bị cản */
+}
+#startBtn {
+    position: relative;
+    z-index: 55; 
+}
+
+/* ========================= */
+/* EFFECTS (HOA, BONG BÓNG, PHÁO BÔNG, ĐÈN) */
+/* ========================= */
+#effects-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none; /* Không làm cản trở việc cuộn hay bấm nút */
+    z-index: 90; /* Nằm dưới bức thư một chút để làm nền */
+    overflow: hidden;
+    display: none;
+}
+
+/* Animation Hoa Rơi */
+.flower {
+    position: absolute;
+    top: -50px;
+    opacity: 0.8;
+    user-select: none;
+}
+@keyframes fallDown {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+
+/* Animation Bong Bóng Bay */
+.balloon {
+    position: absolute;
+    bottom: -100px;
+    opacity: 0.9;
+    user-select: none;
+}
+@keyframes floatUp {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+}
+
+/* Animation Đèn Lấp Lánh */
+.light {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.5), 0 0 40px 20px rgba(255, 220, 100, 0.3);
+    animation: twinkle 3s infinite ease-in-out;
+}
+@keyframes twinkle {
+    0%, 100% { opacity: 0.2; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* Animation Pháo Bông (Hạt vỡ ra) */
+.firework-particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    animation: explode 1s ease-out forwards;
+}
+@keyframes explode {
+    0% { transform: translate(0, 0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+}
+#closeLetterBtn {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 32px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 120; /* Đè lên trên overlay thư */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#closeLetterBtn:hover {
+    background: #ff003c;
+    border-color: #ff003c;
+    transform: scale(1.1) rotate(90deg);
+    box-shadow: 0 0 30px rgba(255, 0, 60, 0.6);
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kỷ Niệm 6 Tháng ❤️</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="background">
+        <div class="redGlow"></div>
+    </div>
+
+    <div class="spotlight"></div>
+
+    <audio id="bgMusic" loop>
+        <source src="music/song.mp3" type="audio/mpeg">
+    </audio>
+
+    <section id="intro">
+        <div class="introContent">
+            <h1 class="mainTitle">
+                Chúc Mừng Kỷ Niệm
+                <br>
+                6 Tháng ❤️
+            </h1>
+            <p class="dateText">
+                25/12/2025 - 25/06/2026
+            </p>
+            <div class="counterBox">
+                <span id="loveDays"></span>
+            </div>
+            <button id="startBtn">
+                ✨ Thử coi 6 tháng này có gì ✨
+            </button>
+        </div>
+    </section>
+
+    <section id="gallery">
+        <h2 class="galleryTitle">
+            Những Khoảnh Khắc Của Tụi Mình ❤️
+        </h2>
+
+        <div class="galleryContainer">
+            <div class="card left">
+                <img src="images/1.jpg">
+                <div class="caption">Ngày đầu tiên ✨</div>
+            </div>
+
+            <div class="card right">
+                <img src="images/2.jpg">
+                <div class="caption">Một buổi đi chơi ❤️</div>
+            </div>
+
+            <div class="card left">
+                <img src="images/3.jpg">
+                <div class="caption">Khoảnh khắc đáng nhớ 🌹</div>
+            </div>
+
+            <div class="card right">
+                <img src="images/4.jpg">
+                <div class="caption">Nụ cười của em ✨</div>
+            </div>
+
+            <div class="card left">
+                <img src="images/5.jpg">
+                <div class="caption">Kỷ niệm đẹp ❤️</div>
+            </div>
+
+            <div class="card right">
+                <img src="images/6.jpg">
+                <div class="caption">6 tháng bên nhau ❤️</div>
+            </div>
+        </div>
+
+        <button id="openLetterBtn" style="display: none;">
+            💌 Em bấm vào đây để mở thư nhé 💌
+        </button>
+
+    </section>
+
+    <section id="letterSection">
+    <div class="overlay"></div>
+    
+    <button id="closeLetterBtn">&times;</button>
+
+    <div class="envelopeWrapper">
+        <div class="envelope">
+            <div class="envelopeFlap"></div>
+            <div class="letterPaper">
+                <div id="typewriter"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <div id="effects-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
